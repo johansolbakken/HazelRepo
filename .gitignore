@@ -1,0 +1,6 @@
+**/Makefile
+truckapp/bin
+truckapp/bin-int
+**/*.xcworkspace
+**/*.xcodeproj
+**/Build
