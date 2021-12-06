@@ -4,3 +4,4 @@ truckapp/bin-int
 **/*.xcworkspace
 **/*.xcodeproj
 **/Build
+**/.DS_Store

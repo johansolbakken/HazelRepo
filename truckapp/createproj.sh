@@ -1,1 +1,1 @@
-./vendor/bin/premake5 gmake
+./vendor/bin/premake5 xcode4
