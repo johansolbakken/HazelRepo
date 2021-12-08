@@ -19,6 +19,7 @@ public:
     Shader(std::string vertexShader, std::string fragmentShader);
     ~Shader();
     void useShader();
+    GLint GetUniformLocation(std::string varName);
     
 private:
     std::string GetCode(std::string filepath);

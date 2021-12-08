@@ -58,3 +58,7 @@ std::string Shader::GetCode(std::string filepath) {
     }
     return stringstream.str();
 }
+
+GLint Shader::GetUniformLocation(std::string varName) {
+    return glGetUniformLocation(m_shaderID, varName.c_str());
+}
