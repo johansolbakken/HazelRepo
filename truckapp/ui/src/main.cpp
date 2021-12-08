@@ -1,68 +1,55 @@
-#include <stdio.h>
+#include <string>
 
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
+#include "window/Window.h"
+#include "shaders/Shader.h"
 
-// Window dimensions
-const int32_t WIDTH = 800, HEIGHT = 600;
 
 int main(void)
 {
+    Window window;
+    window.Initialize();
     
-    /* Initialize the library */
-    if (!glfwInit()) {
-        printf("GLFW initialization failed!\n");
-        return 1;
-    }
-    // OpenGL version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_SAMPLES, 4); // Anti aliasing
-    // Core profile - no backward compatibility
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    // Forward compatibility
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    // Data
+    GLfloat vertices[] = {
+        1.0f, -1.0f, -1.0f,
+        -1.0, -1.0f, -1.0f,
+        0.0f, 1.0f, 0.0f,
+    };
     
-    // Create window
-    GLFWwindow* mainWindow = glfwCreateWindow(WIDTH, HEIGHT, "Hello World", NULL, NULL);
-    if (!mainWindow)
-    {
-        glfwTerminate();
-        printf("Could not create window!\n");
-        return 1;
-    }
-
-    // Get Buffer size information
-    int32_t bufferWidth, bufferHeight;
-    glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
+    // Create objects
+    GLuint VAO, VBO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
     
-    /* Make the window's context current */
-    glfwMakeContextCurrent(mainWindow);
-
-    // Allow to use extensions
-    glewExperimental = GL_TRUE;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     
-    if (glewInit() != GLEW_OK) {
-        printf("Glew initialization failed!\n");
-        glfwDestroyWindow(mainWindow);
-        glfwTerminate();
-        return 1;
-    }
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    // Setup Viewport size
-    glViewport(0,0, bufferWidth, bufferHeight);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
+    
+    Shader program("../../ui/res/shaders/vertex.glsl", "../../ui/res/shaders/fragment.glsl");
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
     
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(mainWindow))
+    while (!window.WindowShouldClose())
     {
         glfwPollEvents();
-        glClearColor(1.f, 0.f, 0.f, 1.f);
-        
-        /* Render here */
+        glClearColor(0.f, 0.f, 0.f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Draw
+        glBindVertexArray(VAO);
+        program.useShader();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glUseProgram(0);
+        glBindVertexArray(0);
+        
         /* Swap front and back buffers */
-        glfwSwapBuffers(mainWindow);
+        window.SwapBuffers();
     }
 
     glfwTerminate();

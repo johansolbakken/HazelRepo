@@ -6,7 +6,6 @@ workspace "truckapp"
         "Debug", 
         "Release" 
     }
-	--buildoptions { "-stdlib=libc++"}
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "ui"
@@ -17,10 +16,10 @@ project "ui"
     staticruntime "On"
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-    
-    files { "%{prj.name}/src/**.h", "%{prj.name}/src/**.cpp" }
+    files { "%{prj.name}/src/**", "%{prj.name}/src/**.h", "%{prj.name}/src/**.cpp", "%{prj.name}/res/**.glsl"}
+    debugdir "%{prj.name}"
 
-    includedirs { "./vendor/include" }
+    includedirs { "./vendor/include", "%{prj.name}/res/**.glsl" }
     libdirs { "./vendor/lib" }
     sysincludedirs { "/Library/Frameworks" }
 
@@ -29,7 +28,7 @@ project "ui"
     filter "configurations:Debug"
         defines { "DEBUG" }
         symbols "On"
-    
+
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
