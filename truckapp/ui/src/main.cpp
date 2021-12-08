@@ -1,8 +1,12 @@
 #include <string>
 
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "glm/vec4.hpp"
+
 #include "window/Window.h"
 #include "shaders/Shader.h"
-
+#include "mesh/Mesh.hpp"
 
 int main(void)
 {
@@ -16,23 +20,10 @@ int main(void)
         0.0f, 1.0f, 0.0f,
     };
     
-    // Create objects
-    GLuint VAO, VBO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-    
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
+    Mesh mesh;
+    mesh.SetVertices(vertices, 9);
     
     Shader program("../../ui/res/shaders/vertex.glsl", "../../ui/res/shaders/fragment.glsl");
-    
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
     
     /* Loop until the user closes the window */
     while (!window.WindowShouldClose())
@@ -40,13 +31,13 @@ int main(void)
         glfwPollEvents();
         glClearColor(0.f, 0.f, 0.f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        // Draw
-        glBindVertexArray(VAO);
+        
+        mesh.Bind();
         program.useShader();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glUniform4f(program.GetUniformLocation("ourColor"), 1.0f, sin(glfwGetTime()/2.0+0.5), 1.0f, 1.0f);
+        mesh.Draw();
         glUseProgram(0);
-        glBindVertexArray(0);
+        mesh.Unbind();
         
         /* Swap front and back buffers */
         window.SwapBuffers();
