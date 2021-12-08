@@ -5,3 +5,4 @@ truckapp/bin-int
 **/*.xcodeproj
 **/Build
 **/.DS_Store
+**/.vscode
