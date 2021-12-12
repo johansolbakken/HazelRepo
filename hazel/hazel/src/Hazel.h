@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "Hazel/Core.h"
 #include "Hazel/Application.hpp"
 #include "Hazel/Log.hpp"
 
