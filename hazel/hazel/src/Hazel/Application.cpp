@@ -5,6 +5,8 @@
 //  Created by Johan Solbakken on 09/12/2021.
 //
 
+#include "hzpch.h"
+
 #include "Application.hpp"
 
 #include "Log.hpp"

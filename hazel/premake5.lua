@@ -26,6 +26,10 @@ project "Hazel"
     -- Output for intermediate files
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+    -- Pre compiled header
+    pchheader "src/hzpch.h"
+    pchsource "hazel/src/hzpch.cpp"
+
     -- Project files
     files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" }
 

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <memory>
+#include "hzpch.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
