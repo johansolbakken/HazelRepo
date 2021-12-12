@@ -7,3 +7,4 @@ truckapp/bin-int
 **/.DS_Store
 **/.vscode
 **/bin/
+**/bin-int/
