@@ -9,6 +9,7 @@ workspace "Hazel"
 
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+
 --[[
     HAZEL PROJECT
 ]]
@@ -36,8 +37,13 @@ project "Hazel"
 	includedirs {"./hazel/src"}
 
     -- Libraries
-	sysincludedirs {"./hazel/vendor/spdlog/include"} -- include directories
-    links { }
+	sysincludedirs {
+        "./hazel/vendor/spdlog/include",
+        "./vendor/include"
+    }
+     libdirs { "./vendor/lib" }
+
+    links { "glfw3", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
 
     -- Configuration setup
     filter "configurations:Debug"
@@ -51,6 +57,7 @@ project "Hazel"
     filter "configurations:Dist"
         defines { "HZ_DIST" }
         optimize "On"
+
 
 --[[
     Sandbox PROJECT
@@ -69,10 +76,11 @@ project "Sandbox"
 
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" }
 	
-	sysincludedirs { "./hazel/src", "./hazel/vendor/spdlog/include" }
+     libdirs { "./vendor/lib" }
+	sysincludedirs { "./hazel/src", "./hazel/vendor/spdlog/include", "./vendor/include" }
 
     -- Linking hazel into sandbox
-	links { "Hazel" }
+	links { "Hazel", "glfw3", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
 
 	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib %{cfg.targetdir}")
 
@@ -87,6 +95,8 @@ project "Sandbox"
     filter "configurations:Dist"
         defines { "HZ_DIST" }
         optimize "On"
+
+        
 
 
 
