@@ -29,6 +29,8 @@ project "Hazel"
     -- Project files
     files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" }
 
+	includedirs {"./hazel/src"}
+
     -- Libraries
 	sysincludedirs {"./hazel/vendor/spdlog/include"} -- include directories
     links { }
