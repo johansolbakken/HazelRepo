@@ -8,11 +8,13 @@
 #include "hzpch.h"
 
 #include "Application.hpp"
+#include "Input.h"
 
 #include <Glad/glad.h>
 
 namespace Hazel {
 
+// Singleton instance
 Application* Application::s_Instance = nullptr;
 
 Application::Application() {
@@ -54,6 +56,8 @@ void Application::Run() {
         
         for (Layer* layer : m_LayerStack)
             layer->OnUpdate();
+        
+        HZ_CORE_TRACE("Mouse X: {0}", Input::GetMouseX());
         
         m_Window->OnUpdate();
     }

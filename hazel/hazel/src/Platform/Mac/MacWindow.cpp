@@ -165,7 +165,6 @@ void MacWindow::Init(const WindowProps& props) {
     });
     
     
-    
 }
 
 void MacWindow::Shutdown() {
