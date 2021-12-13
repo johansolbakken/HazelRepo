@@ -15,3 +15,6 @@ project "Glad"
     sysincludedirs {
         "include"
     }
+
+    filter "system:macosx"
+		systemversion "10.15"

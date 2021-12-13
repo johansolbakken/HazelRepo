@@ -10,9 +10,11 @@ workspace "Hazel"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
+--IncludeDir["GLFW"] = "Hazel/vendor/glfw/include"
 IncludeDir["Glad"] = "Hazel/vendor/glad/include"
 IncludeDir["imgui"] = "Hazel/vendor/imgui"
 
+--include "Hazel/vendor/glfw"
 include "Hazel/vendor/glad"
 include "Hazel/vendor/imgui"
 
@@ -25,7 +27,7 @@ project "Hazel"
     language "C++" -- Language of project
     cppdialect "C++17" -- Cpp version
     systemversion "10.15"
-    staticruntime "On"
+    staticruntime "Off"
 
     -- Output for Lib
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -47,30 +49,28 @@ project "Hazel"
         "./hazel/vendor/spdlog/include",
         "./vendor/include",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.imgui}"
+        "%{IncludeDir.imgui}",
+        "%{IncludeDir.GLFW}"
     }
-     libdirs { "./vendor/lib" }
+    
+    libdirs { "./vendor/lib" }
 
     links { "glfw3", "Glad", "ImGui", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
-
-    defines {
-        "GLFW_INCLUDE_NONE"
-    }
 
     -- Configuration setup
     filter "configurations:Debug"
         defines { "HZ_DEBUG" }
-        --buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines { "HZ_RELEASE" }
-        --buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines { "HZ_DIST" }
-        --buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 
@@ -83,7 +83,7 @@ project "Sandbox"
     language "C++"
 	cppdialect "C++17"
 	systemversion "10.15"
-	staticruntime "On"
+	staticruntime "Off"
 
     -- Intermediate and target dirs
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
