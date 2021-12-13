@@ -7,14 +7,9 @@
 
 #pragma once
 
-#include "Hazel/Log.hpp"
-
-#include "Hazel/Events/Event.h"
-#include "Hazel/Events/KeyEvent.h"
-#include "Hazel/Events/MouseEvent.h"
-#include "Hazel/Events/ApplicationEvent.h"
-
 #include "Hazel/Application.hpp"
+#include "Hazel/Log.hpp"
+#include "Hazel/Layer.hpp"
 
 // ------------ Entry Point ------------------
 #include "Hazel/EntryPoint.h"
