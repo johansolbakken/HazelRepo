@@ -11,6 +11,7 @@
 
 namespace Hazel {
 
+// Props for creating a Window
 struct WindowProps {
     std::string Title;
     unsigned int Width;
@@ -22,7 +23,7 @@ struct WindowProps {
     : Title(title), Width(width), Height(height) {}
 };
 
-// Basicly an interface
+// Basicly an interface for a universal Window
 class Window {
 public:
     using EventCallbackFn = std::function<void(Event&)>;
@@ -37,6 +38,8 @@ public:
     virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
     virtual void SetVSync(bool enabled) = 0;
     virtual bool IsVSync() const = 0;
+    
+    virtual void* GetNativeWindow() const = 0;
     
     static Window* Create(const WindowProps& props = WindowProps());
 };
