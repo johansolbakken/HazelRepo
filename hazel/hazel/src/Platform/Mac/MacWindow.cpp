@@ -6,6 +6,9 @@
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
+#include <Glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace Hazel {
 
 static bool s_GLFWInitialzed = false;
@@ -68,6 +71,11 @@ void MacWindow::Init(const WindowProps& props) {
     
     m_Window = glfwCreateWindow((int) props.Width, (int) props.Height, m_Data.Title.c_str(), nullptr, nullptr);
     glfwMakeContextCurrent(m_Window);
+    
+    // Glad
+    int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+    HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
+    
     glfwSetWindowUserPointer(m_Window, &m_Data);
     SetVSync(true);
     

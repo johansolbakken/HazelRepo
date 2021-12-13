@@ -9,6 +9,10 @@ workspace "Hazel"
 
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["Glad"] = "Hazel/vendor/glad/include"
+
+include "Hazel/vendor/glad"
 
 --[[
     HAZEL PROJECT
@@ -39,11 +43,16 @@ project "Hazel"
     -- Libraries
 	sysincludedirs {
         "./hazel/vendor/spdlog/include",
-        "./vendor/include"
+        "./vendor/include",
+        "%{IncludeDir.Glad}"
     }
      libdirs { "./vendor/lib" }
 
-    links { "glfw3", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
+    links { "glfw3", "Glad", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
+
+    defines {
+        "GLFW_INCLUDE_NONE"
+    }
 
     -- Configuration setup
     filter "configurations:Debug"
@@ -83,8 +92,8 @@ project "Sandbox"
 	sysincludedirs { "./hazel/src", "./hazel/vendor/spdlog/include", "./vendor/include" }
 
     -- Linking hazel into sandbox
-	links { "Hazel", "glfw3", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
-
+	--links { "Hazel", "glfw3", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
+    links { "Hazel" }
 	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib %{cfg.targetdir}")
 
 	filter "configurations:Debug"
