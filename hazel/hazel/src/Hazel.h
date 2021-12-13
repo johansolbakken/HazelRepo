@@ -10,6 +10,7 @@
 #include "Hazel/Application.hpp"
 #include "Hazel/Log.hpp"
 #include "Hazel/Layer.hpp"
+#include "Hazel/ImGui/ImGuiLayer.hpp"
 
 // ------------ Entry Point ------------------
 #include "Hazel/EntryPoint.h"

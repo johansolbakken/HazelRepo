@@ -11,8 +11,10 @@ workspace "Hazel"
 
 IncludeDir = {}
 IncludeDir["Glad"] = "Hazel/vendor/glad/include"
+IncludeDir["imgui"] = "Hazel/vendor/imgui"
 
 include "Hazel/vendor/glad"
+include "Hazel/vendor/imgui"
 
 --[[
     HAZEL PROJECT
@@ -44,11 +46,12 @@ project "Hazel"
 	sysincludedirs {
         "./hazel/vendor/spdlog/include",
         "./vendor/include",
-        "%{IncludeDir.Glad}"
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.imgui}"
     }
      libdirs { "./vendor/lib" }
 
-    links { "glfw3", "Glad", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
+    links { "glfw3", "Glad", "ImGui", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
 
     defines {
         "GLFW_INCLUDE_NONE"

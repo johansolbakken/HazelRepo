@@ -123,6 +123,12 @@ void MacWindow::Init(const WindowProps& props) {
         }
     });
     
+    glfwSetCharCallback(m_Window, [](GLFWwindow* window, u_int32_t keycode) {
+        WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
+        KeyTypedEvent event(keycode);
+        data.EventCallback(event);
+    });
+    
     glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
         WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
         
@@ -157,6 +163,8 @@ void MacWindow::Init(const WindowProps& props) {
         MouseMovedEvent event((float) xPos, (float) yPos);
         data.EventCallback(event);
     });
+    
+    
     
 }
 
