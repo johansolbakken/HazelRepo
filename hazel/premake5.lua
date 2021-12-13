@@ -1,14 +1,14 @@
 -- Premake.lua
 workspace "Hazel"
     architecture "x64"
+    startproject "Sandbox"
     configurations { 
         "Debug", 
         "Release",
         "Dist"
     }
 
-    outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["Glad"] = "Hazel/vendor/glad/include"
 IncludeDir["imgui"] = "Hazel/vendor/imgui"
@@ -95,8 +95,7 @@ project "Sandbox"
 	sysincludedirs { "./hazel/src", "./hazel/vendor/spdlog/include", "./vendor/include" }
 
     -- Linking hazel into sandbox
-	--links { "Hazel", "glfw3", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
-    links { "Hazel" }
+	links { "Hazel" }
 	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib %{cfg.targetdir}")
 
 	filter "configurations:Debug"
@@ -110,36 +109,3 @@ project "Sandbox"
     filter "configurations:Dist"
         defines { "HZ_DIST" }
         optimize "On"
-
-        
-
-
-
-
---[[ My own ui project from earlier
-project "ui"
-    kind "WindowedApp"
-    cppdialect "C++17"
-    location "ui"
-    systemversion "10.15"
-    staticruntime "On"
-    targetdir ("bin/" .. outputdir)
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-    files { "%{prj.name}/src/**", "%{prj.name}/src/**.h", "%{prj.name}/src/**.cpp", "%{prj.name}/res/**.glsl"}
-    debugdir "%{prj.name}"
-
-    includedirs { "./vendor/include", "%{prj.name}/res/**.glsl" }
-    libdirs { "./vendor/lib" }
-    sysincludedirs { "/Library/Frameworks", "./vendor/include", "%{prj.name}/res/**.glsl" }
-
-    links { "glfw3", "GLEW", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
-    xcodebuildsettings = { ["ALWAYS_SEARCH_USER_PATHS"] = "YES" }
-
-    filter "configurations:Debug"
-        defines { "DEBUG" }
-        symbols "On"
-
-    filter "configurations:Release"
-        defines { "NDEBUG" }
-        optimize "On"
---]]
