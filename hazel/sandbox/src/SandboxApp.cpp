@@ -7,9 +7,15 @@
 
 #include <Hazel.h>
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer : public Hazel::Layer {
 public:
-    ExampleLayer() : Layer("Example") {}
+    ExampleLayer() : Layer("Example") {
+    }
     
     void OnUpdate() override {
         if (Hazel::Input::IsKeyPressed(HZ_KEY_TAB))

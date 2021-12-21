@@ -10,9 +10,11 @@ workspace "Hazel"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
---IncludeDir["GLFW"] = "Hazel/vendor/glfw/include"
+IncludeDir["GLFW"] = "vendor/include"
 IncludeDir["Glad"] = "Hazel/vendor/glad/include"
 IncludeDir["imgui"] = "Hazel/vendor/imgui"
+IncludeDir["glm"] = "Hazel/vendor/glm"
+IncludeDir["spdlog"] = "Hazel/vendor/spdlog/include"
 
 --include "Hazel/vendor/glfw"
 include "Hazel/vendor/glad"
@@ -42,19 +44,23 @@ project "Hazel"
     -- Project files
     files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" }
 
-	includedirs {"./hazel/src"}
+	
+
+    libdirs {"vendor/lib"}
+
+    includedirs {
+        "./hazel/src"
+    }
 
     -- Libraries
 	sysincludedirs {
-        "./hazel/vendor/spdlog/include",
-        "./vendor/include",
+        "%{IncludeDir.spdlog}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.imgui}",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.glm}"
     }
     
-    libdirs { "./vendor/lib" }
-
     links { "glfw3", "Glad", "ImGui", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
 
     -- Configuration setup
@@ -90,12 +96,16 @@ project "Sandbox"
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" }
-	
-     libdirs { "./vendor/lib" }
-	sysincludedirs { "./hazel/src", "./hazel/vendor/spdlog/include", "./vendor/include" }
+
+	sysincludedirs { 
+        "./hazel/src", 
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.spdlog}"
+    }
 
     -- Linking hazel into sandbox
 	links { "Hazel" }
+
 	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib %{cfg.targetdir}")
 
 	filter "configurations:Debug"

@@ -76,6 +76,11 @@ void MacWindow::Init(const WindowProps& props) {
     int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
     HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
     
+    int32_t bufferWidth, bufferHeight;
+    glfwGetFramebufferSize(m_Window, &bufferWidth, &bufferHeight);
+    
+    glViewport(0,0, bufferWidth, bufferHeight);
+    
     glfwSetWindowUserPointer(m_Window, &m_Data);
     SetVSync(true);
     
