@@ -8,12 +8,13 @@
 #pragma once
 
 #include "Core.h"
-#include "Events/Event.h"
-#include "Events/KeyEvent.h"
-#include "Events/MouseEvent.h"
-#include "Events/ApplicationEvent.h"
-#include "LayerStack.hpp"
+
 #include "Window.h"
+#include "LayerStack.hpp"
+#include "Events/Event.h"
+#include "Events/ApplicationEvent.h"
+
+#include "Hazel/ImGui/ImGuiLayer.hpp"
 
 namespace Hazel {
 
@@ -37,7 +38,10 @@ public:
     
 private:
     bool OnWindowClosed(WindowCloseEvent& e);
+    
+private:
     std::unique_ptr<Window> m_Window;
+    ImGuiLayer* m_ImGuiLayer;
     bool m_Running = true;
     LayerStack m_LayerStack;
 

@@ -100,7 +100,8 @@ project "Sandbox"
 	sysincludedirs { 
         "./hazel/src", 
         "%{IncludeDir.glm}",
-        "%{IncludeDir.spdlog}"
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.imgui}"
     }
 
     -- Linking hazel into sandbox
