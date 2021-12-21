@@ -63,6 +63,11 @@ project "Hazel"
     
     links { "glfw3", "Glad", "ImGui", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
 
+
+
+
+	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib /usr/local/lib/")
+
     -- Configuration setup
     filter "configurations:Debug"
         defines { "HZ_DEBUG" }
