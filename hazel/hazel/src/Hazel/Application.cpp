@@ -73,8 +73,6 @@ namespace Hazel
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClosed));
 		
-		HZ_TRACE(e);
-		
 		// Going backwards to give the top layer the event
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
