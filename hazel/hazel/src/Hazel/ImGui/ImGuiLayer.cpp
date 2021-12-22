@@ -6,7 +6,7 @@
 //
 
 #include "hzpch.h"
-#include "ImGuiLayer.hpp"
+#include "ImGuiLayer.h"
 
 #include <imgui.h>
 
@@ -17,7 +17,7 @@
 #include <Glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Hazel/Application.hpp"
+#include "Hazel/Application.h"
 
 namespace Hazel
 {

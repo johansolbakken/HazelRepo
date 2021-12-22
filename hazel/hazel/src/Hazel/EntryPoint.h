@@ -8,7 +8,7 @@
 #pragma once
 
 #include "hzpch.h"
-#include "Application.hpp"
+#include "Application.h"
 
 // Function to be defined by client
 extern Hazel::Application* Hazel::CreateApplication();
