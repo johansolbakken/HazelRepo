@@ -9,14 +9,15 @@ workspace "Hazel"
     }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
 IncludeDir = {}
-IncludeDir["GLFW"] = "vendor/include"
+IncludeDir["GLFW"] = "Hazel/vendor/glfw/include"
 IncludeDir["Glad"] = "Hazel/vendor/glad/include"
 IncludeDir["imgui"] = "Hazel/vendor/imgui"
 IncludeDir["glm"] = "Hazel/vendor/glm"
 IncludeDir["spdlog"] = "Hazel/vendor/spdlog/include"
 
---include "Hazel/vendor/glfw"
+include "Hazel/vendor/glfw"
 include "Hazel/vendor/glad"
 include "Hazel/vendor/imgui"
 
@@ -25,12 +26,11 @@ include "Hazel/vendor/imgui"
 ]]
 project "Hazel"
     location "hazel" -- Path of project
-	kind "SharedLib" -- Dynamic library
+	kind "StaticLib" -- Dynamic library
     language "C++" -- Language of project
-    cppdialect "C++17" -- Cpp version
-    systemversion "10.15"
-    staticruntime "Off"
-
+    cppdialect "C++17"
+    staticruntime "On"
+    
     -- Output for Lib
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 
@@ -42,11 +42,9 @@ project "Hazel"
     pchsource "hazel/src/hzpch.cpp"
 
     -- Project files
-    files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" }
-
-	
-
-    libdirs {"vendor/lib"}
+    files { 
+        "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp", "%{prj.name}/src/**.h" 
+    }
 
     includedirs {
         "./hazel/src"
@@ -61,12 +59,7 @@ project "Hazel"
         "%{IncludeDir.glm}"
     }
     
-    links { "glfw3", "Glad", "ImGui", "CoreVideo.framework", "IOKit.framework", "OpenGL.framework", "Cocoa.framework" }
-
-
-
-
-	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib /usr/local/lib/")
+    links { "GLFW", "Glad", "ImGui" }
 
     -- Configuration setup
     filter "configurations:Debug"
@@ -84,6 +77,26 @@ project "Hazel"
         runtime "Release"
         optimize "On"
 
+    filter "system:macosx"
+        systemversion "10.15"
+
+        links {
+            "Cocoa.framework",
+            "OpenGL.framework",
+            "IOKit.framework",
+            "CoreFoundation.framework"
+        }
+
+        xcodebuildsettings { 
+            WARNING_CFLAGS = "-Wall -Wextra " ..
+                "-Wno-missing-field-initializers " ..
+                "-Wno-unknown-pragmas " ..
+                "-Wno-unused-parameter " ..
+                "-Wno-unused-local-typedef " ..
+                "-Wno-missing-braces " ..
+                "-Wno-microsoft-anon-tag "
+        }
+
 
 --[[
     Sandbox PROJECT
@@ -92,10 +105,9 @@ project "Sandbox"
     location "sandbox"
 	kind "ConsoleApp"
     language "C++"
-	cppdialect "C++17"
-	systemversion "10.15"
-	staticruntime "Off"
-
+    cppdialect "C++17"
+    staticruntime "On"
+    
     -- Intermediate and target dirs
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -109,19 +121,38 @@ project "Sandbox"
         "%{IncludeDir.imgui}"
     }
 
-    -- Linking hazel into sandbox
 	links { "Hazel" }
-
-	postbuildcommands ("{COPY} %{wks.location}/bin/" .. outputdir .. "/Hazel/libHazel.dylib %{cfg.targetdir}")
 
 	filter "configurations:Debug"
         defines { "HZ_DEBUG" }
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines { "HZ_RELEASE" }
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines { "HZ_DIST" }
+        runtime "Release"
         optimize "On"
+
+    filter "system:macosx"
+        systemversion "10.15"
+
+        links {
+            "Cocoa.framework",
+            "IOKit.framework",
+            "CoreFoundation.framework"
+        }
+
+        xcodebuildsettings { 
+            WARNING_CFLAGS = "-Wall -Wextra " ..
+                "-Wno-missing-field-initializers " ..
+                "-Wno-unknown-pragmas " ..
+                "-Wno-unused-parameter " ..
+                "-Wno-unused-local-typedef " ..
+                "-Wno-missing-braces " ..
+                "-Wno-microsoft-anon-tag "
+        }

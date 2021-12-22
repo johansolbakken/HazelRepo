@@ -18,3 +18,11 @@ project "Glad"
 
     filter "system:macosx"
 		systemversion "10.15"
+        
+    filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
