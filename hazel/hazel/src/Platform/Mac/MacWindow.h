@@ -2,6 +2,8 @@
 
 #include "Hazel/Window.h"
 
+#include "Platform/OpenGL/OpenGLContext.h"
+
 struct GLFWwindow;
 
 namespace Hazel {
@@ -28,6 +30,7 @@ private:
     
 private:
     GLFWwindow* m_Window;
+    GraphicsContext* m_Context;
     
     struct WindowData {
         std::string Title;

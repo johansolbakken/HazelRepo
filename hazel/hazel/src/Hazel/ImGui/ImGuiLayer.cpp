@@ -10,7 +10,7 @@
 
 #include <imgui.h>
 
-#define IMGUI_IMPL_API
+//#define IMGUI_IMPL_API
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
@@ -19,7 +19,8 @@
 
 #include "Hazel/Application.hpp"
 
-namespace Hazel {
+namespace Hazel
+{
 
 ImGuiLayer::ImGuiLayer() : Layer("ImGui layer")
 {

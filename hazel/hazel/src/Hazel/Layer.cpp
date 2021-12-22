@@ -8,11 +8,11 @@
 #include "hzpch.h"
 #include "Layer.hpp"
 
-namespace Hazel {
+namespace Hazel
+{
 
-Layer::Layer(const std::string& name) : m_DebugName(name) {
-
-}
+Layer::Layer(const std::string& name) : m_DebugName(name)
+{}
 
 Layer::~Layer() {
     

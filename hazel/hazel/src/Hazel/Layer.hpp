@@ -10,12 +10,14 @@
 #include "Hazel/Core.h"
 #include "Hazel/Events/Event.h"
 
-namespace Hazel {
+namespace Hazel
+{
 
-class Layer {
+class Layer
+{
 public:
     Layer(const std::string& name = "Layer");
-    ~Layer();
+    virtual ~Layer();
     
     virtual void OnAttach() {}
     virtual void OnDetach() {}
