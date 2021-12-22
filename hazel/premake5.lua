@@ -80,6 +80,10 @@ project "Hazel"
     filter "system:macosx"
         systemversion "10.15"
 
+        defines {
+            "VALIDATE_WORKSPACE_SKIPPED_SDK_FRAMEWORKS"
+        }
+
         links {
             "Cocoa.framework",
             "OpenGL.framework",
