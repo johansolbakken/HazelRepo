@@ -14,7 +14,8 @@
 
 namespace Hazel {
 
-class ImGuiLayer : public Layer {
+class ImGuiLayer : public Layer
+{
 public:
     ImGuiLayer();
     ~ImGuiLayer();
@@ -25,9 +26,6 @@ public:
     
     void Begin();
     void End();
-    
-private:
-    float m_Time = 0.0f;
 };
 
 }

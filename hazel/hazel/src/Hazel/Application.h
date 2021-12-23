@@ -15,10 +15,12 @@
 #include "Events/ApplicationEvent.h"
 
 #include "Hazel/ImGui/ImGuiLayer.h"
+#include "Hazel/Renderer/VertexArray.h"
+#include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/Buffer.h"
 
 namespace Hazel
 {
-	
 	class Application
 	{
 	public:
@@ -33,8 +35,9 @@ namespace Hazel
 		
 		inline Window& GetWindow() { return *m_Window; }
 		
-		// Singleton pattern
+		// ---- Singleton pattern ----------------------------------
 		inline static Application& Get() { return *s_Instance; }
+		// ---------------------------------------------------------
 		
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
@@ -45,13 +48,17 @@ namespace Hazel
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		
-		u_int32_t m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		// Example: Creating a simple triangle
+		std::unique_ptr<VertexArray> m_VertexArray;
+		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 		
 	private:
 		static Application* s_Instance;
 	};
 	
-	// To be defined in client
+	// ---- To be defines by client --------
 	Application* CreateApplication();
-	
+	// -------------------------------------
 }

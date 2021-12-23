@@ -14,11 +14,12 @@
 extern Hazel::Application* Hazel::CreateApplication();
 
 // Entry point for application
-int main(int argc, char** argv) {
-    Hazel::Log::Init();
-    
-    auto app = Hazel::CreateApplication();
-    app->Run();
-    delete app;
+int main(int argc, char** argv)
+{
+	Hazel::Log::Init();
+	
+	auto app = Hazel::CreateApplication();
+	app->Run();
+	delete app;
 }
 
